@@ -1,0 +1,26 @@
+.header {
+  border-bottom: 1px solid #f2f4f7;
+  background-color: #f7f7f7;
+}
+
+.inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 0;
+}
+
+.logo {
+  font-weight: 700;
+}
+
+.nav {
+  display: flex;
+  gap: 24px;
+}
+
+.link {
+  text-decoration: none;
+  color: #101828;
+  cursor: pointer;
+}
