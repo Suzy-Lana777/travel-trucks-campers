@@ -8,23 +8,15 @@ import Container from "@/components/Container/Container";
 import { useCampersStore } from "@/lib/store/campersStore";
 import css from "./page.module.css";
 
-/* ===== ЛОКАЛЬНИЙ ТИП ===== */
-
 type VehicleForm = "" | "van" | "fullyIntegrated" | "alcove";
 
-/* ===================== СТОРІНКА КАТАЛОГУ ===================== */
-
 export default function CatalogPage() {
-  // використовуємо тип, який уже повертає useCampersStore – без кастів
   const { campers, page, isLoading, error, hasMore, loadCampers } =
     useCampersStore();
 
-  // локальний стан фільтрів
   const [location, setLocation] = useState("");
   const [vehicleType, setVehicleType] = useState<VehicleForm>("");
   const [equipment, setEquipment] = useState<string[]>([]);
-
-  // обрані улюблені кемпери (серця)
   const [favoriteIds, setFavoriteIds] = useState<string[]>([]);
 
   const toggleEquipment = (key: string) => {
@@ -39,7 +31,6 @@ export default function CatalogPage() {
     );
   };
 
-  // перше завантаження
   useEffect(() => {
     void loadCampers({ page: 1 }, { append: false });
   }, [loadCampers]);
@@ -69,9 +60,7 @@ export default function CatalogPage() {
     <main className={css.main}>
       <Container>
         <div className={css.layout}>
-          {/* ==== ЛІВА КОЛОНКА – ФІЛЬТРИ ==== */}
           <aside className={css.filters}>
-            {/* Location */}
             <div className={css.filterBlock}>
               <p className={css.filterLabel}>Location</p>
 
@@ -95,7 +84,6 @@ export default function CatalogPage() {
               </div>
             </div>
 
-            {/* Vehicle equipment */}
             <div className={`${css.filterBlock} ${css.filterBlockEquipment}`}>
               <p className={css.filterCaption}>Filters</p>
               <p className={css.filterLabel}>Vehicle equipment</p>
@@ -193,7 +181,6 @@ export default function CatalogPage() {
               </div>
             </div>
 
-            {/* Vehicle type */}
             <div className={`${css.filterBlock} ${css.filterBlockVehicleType}`}>
               <p className={css.filterLabel}>Vehicle type</p>
 
@@ -272,14 +259,12 @@ export default function CatalogPage() {
             </button>
           </aside>
 
-          {/* ==== ПРАВА КОЛОНКА – КАРТКИ ==== */}
           <section className={css.listSection}>
             {error && <p className={css.error}>{error}</p>}
 
             <ul className={css.list}>
               {campers.map(camper => (
                 <li key={camper.id} className={css.card}>
-                  {/* Фото */}
                   {camper.gallery?.[0]?.thumb && (
                     <div className={css.cardImageWrapper}>
                       <Image
@@ -292,7 +277,6 @@ export default function CatalogPage() {
                     </div>
                   )}
 
-                  {/* Контент картки */}
                   <div className={css.cardContent}>
                     <div className={css.cardTitleRow}>
                       <h2 className={css.cardTitle}>{camper.name}</h2>

@@ -1,11 +1,8 @@
-/* ================= PAGE ================= */
-
 .main {
   padding: 40px 0 80px;
   background-color: #ffffff;
 }
 
-/* спрайт просто ховаємо, щоб use працював */
 .hiddenSprite {
   display: none;
 }
@@ -16,19 +13,14 @@
   gap: 64px;
 }
 
-/* ================ FILTERS LEFT ================ */
-
 .filters {
   width: 360px;
 }
-
-/* блоки фільтрів */
 
 .filterBlock {
   margin-bottom: 32px;
 }
 
-/* “Filters” */
 .filterCaption {
   margin: 0 0 32px;
   font-size: 12px;
@@ -38,7 +30,6 @@
   color: #6c727f;
 }
 
-/* “Location”, “Vehicle equipment”, “Vehicle type” */
 .filterLabel {
   margin: 0 0 24px;
   font-size: 16px;
@@ -46,15 +37,12 @@
   color: #101828;
 }
 
-/* лінія під заголовком (як у макеті) */
 .filterDivider {
   width: 100%;
   height: 1px;
   background-color: #dadde1;
   margin-bottom: 24px;
 }
-
-/* ===== LOCATION ===== */
 
 .locationInputWrapper {
   width: 360px;
@@ -88,8 +76,6 @@
 .locationInput::placeholder {
   color: #6c727f;
 }
-
-/* ===== EQUIPMENT & VEHICLE TYPE GRID ===== */
 
 .filtersGrid {
   width: 360px;
@@ -133,8 +119,6 @@
   display: block;
 }
 
-/* ===== SEARCH BUTTON ===== */
-
 .searchBtn {
   margin-top: 24px;
 
@@ -164,8 +148,6 @@
   background-color: #d84343;
 }
 
-/* ================ LIST / CARDS RIGHT ================ */
-
 .listSection {
   flex: 1;
 }
@@ -184,8 +166,6 @@
   flex-direction: column;
   gap: 24px;
 }
-
-/* картка кемпера */
 
 .card {
   width: 888px;
@@ -218,8 +198,6 @@
   flex: 1;
 }
 
-/* заголовок + ціна + серце */
-
 .cardTitleRow {
   display: flex;
   justify-content: space-between;
@@ -246,12 +224,10 @@
   color: #101828;
 }
 
-/* кнопка-серце */
-/* кнопка-іконка сердечка */
 .cardPriceWrap {
   display: flex;
   align-items: center;
-  gap: 13px; /* відстань між ціною і серцем */
+  gap: 13px;
 }
 
 .heartBtn {
@@ -276,8 +252,6 @@
 .heartActive .heartIcon {
   stroke: #e44848;
 }
-
-/* рейтинг + локація */
 
 .cardMeta {
   margin: 0 0 12px;
@@ -315,8 +289,6 @@
   color: #475467;
 }
 
-/* кнопка Show more */
-
 .moreBtn {
   display: inline-flex;
   align-items: center;
@@ -342,8 +314,6 @@
   background-color: #d84343;
 }
 
-/* кнопка Load more */
-
 .loadMoreBtn {
   display: block;
   margin: 32px auto 0;
@@ -366,7 +336,6 @@
 .loadMoreBtn:hover:not(:disabled),
 .loadMoreBtn:focus-visible:not(:disabled) {
   border-color: #e44848;
-  /* фон лишаємо білим – тільки червоний бордер */
 }
 
 .loadMoreBtn:disabled {
