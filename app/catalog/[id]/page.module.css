@@ -1,0 +1,416 @@
+.main {
+  padding: 40px 0 80px;
+  background-color: #f2f4f7;
+}
+
+.centerText {
+  text-align: center;
+  font-size: 16px;
+  color: #475467;
+}
+
+.details {
+  background-color: #ffffff;
+  border-radius: 20px;
+  padding: 24px;
+  box-shadow: 0 4px 16px rgba(16, 24, 40, 0.08);
+}
+
+.header {
+  margin-bottom: 24px;
+}
+
+.title {
+  margin: 0 0 8px;
+  font-size: 32px;
+  font-weight: 600;
+  color: #101828;
+}
+
+.subRow {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 12px;
+  font-size: 14px;
+  color: #6c717b;
+}
+
+.linkLike {
+  display: inline-flex;
+  align-items: center;
+  padding: 0;
+  border: none;
+  background: none;
+  cursor: default;
+  font: inherit;
+  color: inherit;
+}
+
+.star {
+  margin-right: 4px;
+  color: #ffc531;
+}
+
+.rating {
+  font-weight: 500;
+}
+
+.reviews {
+  color: #6c717b;
+}
+
+.dot {
+  font-size: 18px;
+  line-height: 1;
+}
+
+.location {
+  display: inline-flex;
+  align-items: center;
+}
+
+.price {
+  margin: 0;
+  font-size: 28px;
+  font-weight: 600;
+  color: #101828;
+}
+
+/* ===== gallery ===== */
+
+.gallery {
+  margin: 24px 0 16px;
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.galleryItem {
+  position: relative;
+  height: 280px;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.galleryImage {
+  object-fit: cover;
+}
+
+/* опис під галереєю */
+
+.description {
+  margin: 0 0 24px;
+  font-size: 14px;
+  line-height: 1.5;
+  color: #475467;
+}
+
+/* ===== tabs ===== */
+
+.tabsRow {
+  display: flex;
+  gap: 24px;
+  margin-bottom: 8px;
+}
+
+.tabButton {
+  position: relative;
+  padding: 0 0 12px;
+  border: none;
+  background: none;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 500;
+  color: #6c717b;
+}
+
+.tabButtonActive {
+  color: #101828;
+}
+
+.tabButtonActive::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 3px;
+  border-radius: 999px;
+  background-color: #e44848;
+}
+
+.tabDivider {
+  height: 1px;
+  background-color: #e4e7ec;
+  margin-bottom: 24px;
+}
+
+/* ===== content row ===== */
+
+.contentRow {
+  display: grid;
+  grid-template-columns: minmax(0, 2fr) minmax(320px, 1fr);
+  gap: 24px;
+}
+
+/* ліва панель */
+
+.leftPanel {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+/* бейджі */
+
+.badgesList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 14px;
+  border-radius: 100px;
+  background-color: #f7f7f7;
+  font-size: 14px;
+  font-weight: 500;
+  color: #101828;
+}
+
+/* vehicle details */
+
+.detailsBlock {
+  padding: 24px;
+  border-radius: 10px;
+  background-color: #f7f7f7;
+}
+
+.detailsTitle {
+  margin: 0 0 16px;
+  font-size: 16px;
+  font-weight: 600;
+  color: #101828;
+}
+
+.detailsList {
+  margin: 0;
+  padding: 0;
+}
+
+.detailsRow {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 6px 0;
+  border-bottom: 1px solid #e4e7ec;
+}
+
+.detailsRow:last-child {
+  border-bottom: none;
+}
+
+.detailsRow dt {
+  font-size: 14px;
+  color: #6c717b;
+}
+
+.detailsRow dd {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 500;
+  color: #101828;
+  text-align: right;
+}
+
+/* reviews */
+
+.reviewsBlock {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.reviewsList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.reviewItem {
+  padding-bottom: 16px;
+  border-bottom: 1px solid #e4e7ec;
+}
+
+.reviewItem:last-child {
+  border-bottom: none;
+}
+
+.reviewHeader {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 8px;
+}
+
+.reviewAvatar {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background-color: #f2f4f7;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  color: #101828;
+}
+
+.reviewName {
+  margin: 0 0 2px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #101828;
+}
+
+.reviewRating {
+  margin: 0;
+  font-size: 14px;
+  color: #6c717b;
+}
+
+.reviewText {
+  margin: 0;
+  font-size: 14px;
+  color: #475467;
+}
+
+.mutedText {
+  font-size: 14px;
+  color: #6c717b;
+}
+
+/* ===== booking form ===== */
+
+.booking {
+  padding: 24px;
+  border-radius: 10px;
+  border: 1px solid #e4e7ec;
+  background-color: #ffffff;
+}
+
+.bookingTitle {
+  margin: 0 0 4px;
+  font-size: 20px;
+  font-weight: 600;
+  color: #101828;
+}
+
+.bookingSubtitle {
+  margin: 0 0 20px;
+  font-size: 14px;
+  color: #6c717b;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.input,
+.textarea {
+  width: 100%;
+  border-radius: 10px;
+  border: 1px solid #dadde1;
+  background-color: #f7f7f7;
+  font-size: 14px;
+  color: #101828;
+  padding: 12px 14px;
+  outline: none;
+}
+
+.input::placeholder,
+.textarea::placeholder {
+  color: #6c717b;
+}
+
+.textarea {
+  resize: vertical;
+  min-height: 96px;
+}
+
+.submitBtn {
+  margin-top: 8px;
+  align-self: flex-start;
+  padding: 16px 40px;
+  border-radius: 200px;
+  border: none;
+  background-color: #e44848;
+  color: #ffffff;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.1s ease;
+}
+
+.submitBtn:hover {
+  background-color: #d84343;
+  transform: translateY(-1px);
+}
+
+.submitBtn:active {
+  transform: translateY(0);
+}
+
+.successMessage {
+  margin: 8px 0 0;
+  font-size: 14px;
+  color: #039855;
+}
+
+/* ===== responsive ===== */
+
+@media (max-width: 1023px) {
+  .gallery {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px;
+  }
+
+  .galleryItem {
+    height: 220px;
+  }
+
+  .contentRow {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 767px) {
+  .details {
+    padding: 16px;
+  }
+
+  .title {
+    font-size: 24px;
+  }
+
+  .gallery {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
+  }
+
+  .galleryItem {
+    height: 180px;
+  }
+}

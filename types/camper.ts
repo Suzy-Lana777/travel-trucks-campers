@@ -1,4 +1,3 @@
-// Один елемент галереї
 export interface GalleryItem {
   thumb: string;
   original: string;
@@ -57,6 +56,7 @@ export interface Camper {
   телевизор?: string | boolean;
   TV?: string | boolean;
 
+  radio?: string | boolean;
   радио?: string | boolean;
 
   холодильник?: string | boolean;

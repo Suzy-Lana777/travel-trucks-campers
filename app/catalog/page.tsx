@@ -1,128 +1,243 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
+
 import Container from "@/components/Container/Container";
 import { useCampersStore } from "@/lib/store/campersStore";
+import css from "./page.module.css";
 
 export default function CatalogPage() {
   const { campers, page, isLoading, error, hasMore, loadCampers } =
     useCampersStore();
+
+  // локальний стан фільтрів
+  const [location, setLocation] = useState("");
+  const [vehicleType, setVehicleType] = useState<
+    "" | "van" | "fullyIntegrated" | "alcove"
+  >("");
+  const [equipment, setEquipment] = useState<string[]>([]);
 
   // перше завантаження
   useEffect(() => {
     loadCampers({ page: 1 }, { append: false });
   }, [loadCampers]);
 
+  const toggleEquipment = (key: string) => {
+    setEquipment(prev =>
+      prev.includes(key) ? prev.filter(item => item !== key) : [...prev, key],
+    );
+  };
+
+  const handleSearch = () => {
+    // формуємо параметри для бекенду
+    const params: any = {
+      page: 1,
+    };
+
+    if (location.trim()) params.location = location.trim();
+    if (vehicleType) params.form = vehicleType;
+
+    if (equipment.includes("AC")) params.AC = true;
+    if (equipment.includes("kitchen")) params.kitchen = true;
+    if (equipment.includes("automatic")) params.transmission = "automatic";
+    if (equipment.includes("bathroom")) params.bathroom = true;
+    if (equipment.includes("TV")) params.TV = true;
+
+    loadCampers(params, { append: false });
+  };
+
   const handleLoadMore = () => {
     loadCampers({ page: page + 1 }, { append: true });
   };
 
   return (
-    <main>
+    <main className={css.main}>
       <Container>
-        <h1>Campers catalog</h1>
+        {/* <h1 className={css.title}></h1> */}
 
-        {error && <p style={{ color: "red" }}>{error}</p>}
-
-        <ul style={{ listStyle: "none", padding: 0, margin: 0 }}>
-          {campers.map(camper => (
-            <li
-              key={camper.id}
-              style={{
-                border: "1px solid #e0e0e0",
-                borderRadius: 12,
-                padding: 24,
-                marginBottom: 24,
-                display: "flex",
-                gap: 24,
-                alignItems: "flex-start",
-              }}
-            >
-              {/* Фото */}
-              {camper.gallery?.[0]?.thumb && (
-                <div style={{ flexShrink: 0, width: 290, height: 310 }}>
-                  <Image
-                    src={camper.gallery[0].thumb}
-                    alt={camper.name}
-                    width={290}
-                    height={310}
-                    style={{
-                      width: "100%",
-                      height: "100%",
-                      objectFit: "cover",
-                      borderRadius: 12,
-                    }}
-                  />
-                </div>
-              )}
-
-              {/* Текстова частина */}
-              <div style={{ flex: 1 }}>
-                <div
-                  style={{
-                    display: "flex",
-                    justifyContent: "space-between",
-                    marginBottom: 8,
-                    gap: 16,
-                  }}
-                >
-                  <h2 style={{ margin: 0 }}>{camper.name}</h2>
-                  <span style={{ fontWeight: 600 }}>
-                    €{camper.price.toFixed(2)}
-                  </span>
-                </div>
-
-                <p style={{ margin: "4px 0" }}>
-                  <strong>Location:</strong> {camper.location}
-                </p>
-                <p style={{ margin: "4px 0 12px" }}>
-                  <strong>Rating:</strong> {camper.rating}
-                </p>
-
-                <p style={{ margin: "0 0 16px" }}>{camper.description}</p>
-
-                <Link
-                  href={`/catalog/${camper.id}`}
-                  style={{
-                    display: "inline-block",
-                    padding: "10px 26px",
-                    borderRadius: 100,
-                    backgroundColor: "#e44848",
-                    color: "#fff",
-                    fontWeight: 600,
-                    textDecoration: "none",
-                    cursor: "pointer",
-                  }}
-                >
-                  Show more
-                </Link>
+        <div className={css.layout}>
+          {/* ==== ЛІВА КОЛОНКА – ФІЛЬТРИ ==== */}
+          <aside className={css.filters}>
+            <div className={css.filterBlock}>
+              <p className={css.filterLabel}>Location</p>
+              <div className={css.locationInputWrapper}>
+                {/* тут можна буде додати іконку, якщо захочеш */}
+                <input
+                  type="text"
+                  placeholder="City, Country"
+                  className={css.locationInput}
+                  value={location}
+                  onChange={e => setLocation(e.target.value)}
+                />
               </div>
-            </li>
-          ))}
-        </ul>
+            </div>
 
-        {/* Load more */}
-        {hasMore && (
-          <button
-            onClick={handleLoadMore}
-            disabled={isLoading}
-            style={{
-              display: "block",
-              margin: "0 auto 40px",
-              padding: "10px 26px",
-              borderRadius: 100,
-              border: "none",
-              backgroundColor: "#e44848",
-              color: "#fff",
-              fontWeight: 600,
-              cursor: "pointer",
-            }}
-          >
-            {isLoading ? "Loading..." : "Load more"}
-          </button>
-        )}
+            <div className={css.filterBlock}>
+              <p className={css.filterCaption}>Filters</p>
+              <p className={css.filterLabel}>Vehicle equipment</p>
+
+              <div className={css.filtersGrid}>
+                <button
+                  type="button"
+                  className={`${css.filterBtn} ${
+                    equipment.includes("AC") ? css.filterBtnActive : ""
+                  }`}
+                  onClick={() => toggleEquipment("AC")}
+                >
+                  AC
+                </button>
+                <button
+                  type="button"
+                  className={`${css.filterBtn} ${
+                    equipment.includes("automatic") ? css.filterBtnActive : ""
+                  }`}
+                  onClick={() => toggleEquipment("automatic")}
+                >
+                  Automatic
+                </button>
+                <button
+                  type="button"
+                  className={`${css.filterBtn} ${
+                    equipment.includes("kitchen") ? css.filterBtnActive : ""
+                  }`}
+                  onClick={() => toggleEquipment("kitchen")}
+                >
+                  Kitchen
+                </button>
+                <button
+                  type="button"
+                  className={`${css.filterBtn} ${
+                    equipment.includes("TV") ? css.filterBtnActive : ""
+                  }`}
+                  onClick={() => toggleEquipment("TV")}
+                >
+                  TV
+                </button>
+                <button
+                  type="button"
+                  className={`${css.filterBtn} ${
+                    equipment.includes("bathroom") ? css.filterBtnActive : ""
+                  }`}
+                  onClick={() => toggleEquipment("bathroom")}
+                >
+                  Bathroom
+                </button>
+              </div>
+            </div>
+
+            <div className={css.filterBlock}>
+              <p className={css.filterLabel}>Vehicle type</p>
+              <div className={css.filtersGrid}>
+                <button
+                  type="button"
+                  className={`${css.filterBtn} ${
+                    vehicleType === "van" ? css.filterBtnActive : ""
+                  }`}
+                  onClick={() =>
+                    setVehicleType(prev => (prev === "van" ? "" : "van"))
+                  }
+                >
+                  Van
+                </button>
+                <button
+                  type="button"
+                  className={`${css.filterBtn} ${
+                    vehicleType === "fullyIntegrated" ? css.filterBtnActive : ""
+                  }`}
+                  onClick={() =>
+                    setVehicleType(prev =>
+                      prev === "fullyIntegrated" ? "" : "fullyIntegrated",
+                    )
+                  }
+                >
+                  Fully Integrated
+                </button>
+                <button
+                  type="button"
+                  className={`${css.filterBtn} ${
+                    vehicleType === "alcove" ? css.filterBtnActive : ""
+                  }`}
+                  onClick={() =>
+                    setVehicleType(prev => (prev === "alcove" ? "" : "alcove"))
+                  }
+                >
+                  Alcove
+                </button>
+              </div>
+            </div>
+
+            <button
+              type="button"
+              className={css.searchBtn}
+              onClick={handleSearch}
+              disabled={isLoading}
+            >
+              {isLoading ? "Searching..." : "Search"}
+            </button>
+          </aside>
+
+          {/* ==== ПРАВА КОЛОНКА – КАРТКИ ==== */}
+          <section className={css.listSection}>
+            {error && <p className={css.error}>{error}</p>}
+
+            <ul className={css.list}>
+              {campers.map(camper => (
+                <li key={camper.id} className={css.card}>
+                  {/* Фото */}
+                  {camper.gallery?.[0]?.thumb && (
+                    <div className={css.cardImageWrapper}>
+                      <Image
+                        src={camper.gallery[0].thumb}
+                        alt={camper.name}
+                        width={290}
+                        height={310}
+                        className={css.cardImage}
+                      />
+                    </div>
+                  )}
+
+                  {/* Контент картки */}
+                  <div className={css.cardContent}>
+                    <div className={css.cardTitleRow}>
+                      <h2 className={css.cardTitle}>{camper.name}</h2>
+                      <span className={css.cardPrice}>
+                        €{camper.price.toFixed(2)}
+                      </span>
+                    </div>
+
+                    <p className={css.cardMeta}>
+                      <span>Rating: {camper.rating}</span>
+                      <span className={css.cardDot}>•</span>
+                      <span>{camper.location}</span>
+                    </p>
+
+                    <p className={css.cardDesc}>{camper.description}</p>
+
+                    <Link
+                      href={`/catalog/${camper.id}`}
+                      className={css.moreBtn}
+                    >
+                      Show more
+                    </Link>
+                  </div>
+                </li>
+              ))}
+            </ul>
+
+            {hasMore && (
+              <button
+                type="button"
+                className={css.loadMoreBtn}
+                onClick={handleLoadMore}
+                disabled={isLoading}
+              >
+                {isLoading ? "Loading..." : "Load more"}
+              </button>
+            )}
+          </section>
+        </div>
       </Container>
     </main>
   );
