@@ -8,21 +8,24 @@ import Container from "@/components/Container/Container";
 import { useCampersStore } from "@/lib/store/campersStore";
 import css from "./page.module.css";
 
+/* ===== ЛОКАЛЬНИЙ ТИП ===== */
+
+type VehicleForm = "" | "van" | "fullyIntegrated" | "alcove";
+
+/* ===================== СТОРІНКА КАТАЛОГУ ===================== */
+
 export default function CatalogPage() {
+  // використовуємо тип, який уже повертає useCampersStore – без кастів
   const { campers, page, isLoading, error, hasMore, loadCampers } =
     useCampersStore();
 
   // локальний стан фільтрів
   const [location, setLocation] = useState("");
-  const [vehicleType, setVehicleType] = useState<
-    "" | "van" | "fullyIntegrated" | "alcove"
-  >("");
+  const [vehicleType, setVehicleType] = useState<VehicleForm>("");
   const [equipment, setEquipment] = useState<string[]>([]);
 
-  // перше завантаження
-  useEffect(() => {
-    loadCampers({ page: 1 }, { append: false });
-  }, [loadCampers]);
+  // обрані улюблені кемпери (серця)
+  const [favoriteIds, setFavoriteIds] = useState<string[]>([]);
 
   const toggleEquipment = (key: string) => {
     setEquipment(prev =>
@@ -30,9 +33,19 @@ export default function CatalogPage() {
     );
   };
 
+  const toggleFavorite = (id: string) => {
+    setFavoriteIds(prev =>
+      prev.includes(id) ? prev.filter(x => x !== id) : [...prev, id],
+    );
+  };
+
+  // перше завантаження
+  useEffect(() => {
+    void loadCampers({ page: 1 }, { append: false });
+  }, [loadCampers]);
+
   const handleSearch = () => {
-    // формуємо параметри для бекенду
-    const params: any = {
+    const params: { [key: string]: string | number | boolean | undefined } = {
       page: 1,
     };
 
@@ -45,25 +58,33 @@ export default function CatalogPage() {
     if (equipment.includes("bathroom")) params.bathroom = true;
     if (equipment.includes("TV")) params.TV = true;
 
-    loadCampers(params, { append: false });
+    void loadCampers(params, { append: false });
   };
 
   const handleLoadMore = () => {
-    loadCampers({ page: page + 1 }, { append: true });
+    void loadCampers({ page: page + 1 }, { append: true });
   };
 
   return (
     <main className={css.main}>
       <Container>
-        {/* <h1 className={css.title}></h1> */}
-
         <div className={css.layout}>
           {/* ==== ЛІВА КОЛОНКА – ФІЛЬТРИ ==== */}
           <aside className={css.filters}>
+            {/* Location */}
             <div className={css.filterBlock}>
               <p className={css.filterLabel}>Location</p>
+
               <div className={css.locationInputWrapper}>
-                {/* тут можна буде додати іконку, якщо захочеш */}
+                <svg
+                  className={css.locationIcon}
+                  width={20}
+                  height={20}
+                  aria-hidden="true"
+                >
+                  <use href="/icons/sprite.svg#Map" />
+                </svg>
+
                 <input
                   type="text"
                   placeholder="City, Country"
@@ -74,7 +95,8 @@ export default function CatalogPage() {
               </div>
             </div>
 
-            <div className={css.filterBlock}>
+            {/* Vehicle equipment */}
+            <div className={`${css.filterBlock} ${css.filterBlockEquipment}`}>
               <p className={css.filterCaption}>Filters</p>
               <p className={css.filterLabel}>Vehicle equipment</p>
 
@@ -86,8 +108,17 @@ export default function CatalogPage() {
                   }`}
                   onClick={() => toggleEquipment("AC")}
                 >
-                  AC
+                  <svg
+                    className={css.filterIcon}
+                    width={20}
+                    height={20}
+                    aria-hidden="true"
+                  >
+                    <use href="/icons/sprite.svg#AC" />
+                  </svg>
+                  <span>AC</span>
                 </button>
+
                 <button
                   type="button"
                   className={`${css.filterBtn} ${
@@ -95,8 +126,17 @@ export default function CatalogPage() {
                   }`}
                   onClick={() => toggleEquipment("automatic")}
                 >
-                  Automatic
+                  <svg
+                    className={css.filterIcon}
+                    width={20}
+                    height={20}
+                    aria-hidden="true"
+                  >
+                    <use href="/icons/sprite.svg#Automatic" />
+                  </svg>
+                  <span>Automatic</span>
                 </button>
+
                 <button
                   type="button"
                   className={`${css.filterBtn} ${
@@ -104,8 +144,17 @@ export default function CatalogPage() {
                   }`}
                   onClick={() => toggleEquipment("kitchen")}
                 >
-                  Kitchen
+                  <svg
+                    className={css.filterIcon}
+                    width={20}
+                    height={20}
+                    aria-hidden="true"
+                  >
+                    <use href="/icons/sprite.svg#Kitchen" />
+                  </svg>
+                  <span>Kitchen</span>
                 </button>
+
                 <button
                   type="button"
                   className={`${css.filterBtn} ${
@@ -113,8 +162,17 @@ export default function CatalogPage() {
                   }`}
                   onClick={() => toggleEquipment("TV")}
                 >
-                  TV
+                  <svg
+                    className={css.filterIcon}
+                    width={20}
+                    height={20}
+                    aria-hidden="true"
+                  >
+                    <use href="/icons/sprite.svg#TV" />
+                  </svg>
+                  <span>TV</span>
                 </button>
+
                 <button
                   type="button"
                   className={`${css.filterBtn} ${
@@ -122,13 +180,23 @@ export default function CatalogPage() {
                   }`}
                   onClick={() => toggleEquipment("bathroom")}
                 >
-                  Bathroom
+                  <svg
+                    className={css.filterIcon}
+                    width={20}
+                    height={20}
+                    aria-hidden="true"
+                  >
+                    <use href="/icons/sprite.svg#Bathroom" />
+                  </svg>
+                  <span>Bathroom</span>
                 </button>
               </div>
             </div>
 
-            <div className={css.filterBlock}>
+            {/* Vehicle type */}
+            <div className={`${css.filterBlock} ${css.filterBlockVehicleType}`}>
               <p className={css.filterLabel}>Vehicle type</p>
+
               <div className={css.filtersGrid}>
                 <button
                   type="button"
@@ -139,8 +207,17 @@ export default function CatalogPage() {
                     setVehicleType(prev => (prev === "van" ? "" : "van"))
                   }
                 >
-                  Van
+                  <svg
+                    className={css.filterIcon}
+                    width={20}
+                    height={20}
+                    aria-hidden="true"
+                  >
+                    <use href="/icons/sprite.svg#Van" />
+                  </svg>
+                  <span>Van</span>
                 </button>
+
                 <button
                   type="button"
                   className={`${css.filterBtn} ${
@@ -152,8 +229,17 @@ export default function CatalogPage() {
                     )
                   }
                 >
-                  Fully Integrated
+                  <svg
+                    className={css.filterIcon}
+                    width={20}
+                    height={20}
+                    aria-hidden="true"
+                  >
+                    <use href="/icons/sprite.svg#Fully" />
+                  </svg>
+                  <span>Fully Integrated</span>
                 </button>
+
                 <button
                   type="button"
                   className={`${css.filterBtn} ${
@@ -163,7 +249,15 @@ export default function CatalogPage() {
                     setVehicleType(prev => (prev === "alcove" ? "" : "alcove"))
                   }
                 >
-                  Alcove
+                  <svg
+                    className={css.filterIcon}
+                    width={20}
+                    height={20}
+                    aria-hidden="true"
+                  >
+                    <use href="/icons/sprite.svg#Alcove" />
+                  </svg>
+                  <span>Alcove</span>
                 </button>
               </div>
             </div>
@@ -202,15 +296,52 @@ export default function CatalogPage() {
                   <div className={css.cardContent}>
                     <div className={css.cardTitleRow}>
                       <h2 className={css.cardTitle}>{camper.name}</h2>
-                      <span className={css.cardPrice}>
-                        €{camper.price.toFixed(2)}
-                      </span>
+
+                      <div className={css.cardPriceWrap}>
+                        <span className={css.cardPrice}>
+                          €{camper.price.toFixed(2)}
+                        </span>
+
+                        <button
+                          type="button"
+                          className={`${css.heartBtn} ${
+                            favoriteIds.includes(camper.id)
+                              ? css.heartActive
+                              : ""
+                          }`}
+                          aria-label="Add to favourites"
+                          onClick={() => toggleFavorite(camper.id)}
+                        >
+                          <svg
+                            className={css.heartIcon}
+                            width={24}
+                            height={24}
+                            aria-hidden="true"
+                          >
+                            <use href="/icons/sprite.svg#Heart" />
+                          </svg>
+                        </button>
+                      </div>
                     </div>
 
                     <p className={css.cardMeta}>
-                      <span>Rating: {camper.rating}</span>
+                      <span className={css.cardRating}>
+                        <svg
+                          className={css.cardRatingIcon}
+                          width={16}
+                          height={16}
+                          aria-hidden="true"
+                        >
+                          <use href="/icons/sprite.svg#Star" />
+                        </svg>
+                        <span>{camper.rating.toFixed(1)}</span>
+                      </span>
+
                       <span className={css.cardDot}>•</span>
-                      <span>{camper.location}</span>
+
+                      <span className={css.cardLocation}>
+                        {camper.location}
+                      </span>
                     </p>
 
                     <p className={css.cardDesc}>{camper.description}</p>

@@ -1,61 +1,79 @@
+/* ================= PAGE ================= */
+
 .main {
   padding: 40px 0 80px;
-  background-color: #f2f4f7;
+  background-color: #ffffff;
 }
 
-.title {
-  margin: 0 0 32px;
-  font-size: 32px;
-  font-weight: 600;
-  color: #101828;
+/* спрайт просто ховаємо, щоб use працював */
+.hiddenSprite {
+  display: none;
 }
 
 .layout {
   display: flex;
-  flex-direction: column;
-  gap: 32px;
+  align-items: flex-start;
+  gap: 64px;
 }
 
-/* ===== ФІЛЬТРИ ===== */
+/* ================ FILTERS LEFT ================ */
 
 .filters {
-  padding: 24px;
-  background-color: #ffffff;
-  border-radius: 12px;
-  box-shadow: 0 4px 16px rgba(16, 24, 40, 0.06);
+  width: 360px;
 }
 
-.filterBlock + .filterBlock {
-  margin-top: 24px;
+/* блоки фільтрів */
+
+.filterBlock {
+  margin-bottom: 32px;
 }
 
+/* “Filters” */
 .filterCaption {
-  margin: 0 0 8px;
+  margin: 0 0 32px;
   font-size: 12px;
   font-weight: 500;
-  text-transform: uppercase;
   letter-spacing: 0.04em;
+  text-transform: uppercase;
   color: #6c727f;
 }
 
+/* “Location”, “Vehicle equipment”, “Vehicle type” */
 .filterLabel {
-  margin: 0 0 12px;
-  font-size: 16px; /* було 14px – у макеті 16 */
+  margin: 0 0 24px;
+  font-size: 16px;
   font-weight: 600;
   color: #101828;
 }
 
-/* Location: 360 x 88 */
+/* лінія під заголовком (як у макеті) */
+.filterDivider {
+  width: 100%;
+  height: 1px;
+  background-color: #dadde1;
+  margin-bottom: 24px;
+}
+
+/* ===== LOCATION ===== */
 
 .locationInputWrapper {
-  width: 100%;
-  border-radius: 10px;
+  width: 360px;
+  height: 88px;
+  border-radius: 12px;
   border: 1px solid #dadde1;
-  background-color: #f7f7f7;
-  padding: 18px 18px 18px 44px; /* запас під іконку, як у макеті */
-  min-height: 88px;
+  background-color: #ffffff;
+
   display: flex;
   align-items: center;
+  gap: 8px;
+  padding: 0 20px;
+}
+
+.locationIcon {
+  flex-shrink: 0;
+  width: 20px;
+  height: 20px;
+  fill: #6c717b;
 }
 
 .locationInput {
@@ -71,68 +89,69 @@
   color: #6c727f;
 }
 
-/* Vehicle equipment / Vehicle type */
+/* ===== EQUIPMENT & VEHICLE TYPE GRID ===== */
 
 .filtersGrid {
+  width: 360px;
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr)); /* 3 колонки як у Figma */
-  gap: 12px;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
 }
 
-/* картки-фільтри, не пігулки */
-
 .filterBtn {
-  width: 100%;
-  min-height: 96px; /* високі квадрати */
-  padding: 18px 16px;
+  padding: 14px 20px;
   border-radius: 12px;
   border: 1px solid #dadde1;
   background-color: #ffffff;
   font-size: 16px;
   font-weight: 500;
   color: #101828;
-  cursor: pointer;
 
-  display: flex;
+  display: inline-flex;
   align-items: center;
   justify-content: center;
-  text-align: center;
+  gap: 8px;
 
-  transition: background-color 0.2s ease, border-color 0.2s ease,
-    box-shadow 0.2s ease, color 0.2s ease;
+  cursor: pointer;
+  transition: border-color 0.2s ease, background-color 0.2s ease,
+    color 0.2s ease;
+}
+
+.filterBtn:hover,
+.filterBtn:focus-visible {
+  border-color: #e44848;
 }
 
 .filterBtnActive {
   border-color: #e44848;
   background-color: #fff4f4;
   color: #e44848;
-  box-shadow: 0 2px 6px rgba(228, 72, 72, 0.25);
 }
 
-/* Search: 166 x 56, radius 200 */
+.filterIcon {
+  flex-shrink: 0;
+  display: block;
+}
+
+/* ===== SEARCH BUTTON ===== */
 
 .searchBtn {
-  margin-top: 32px;
+  margin-top: 24px;
+
   width: 166px;
   height: 56px;
   padding: 16px 60px;
+
   border-radius: 200px;
   border: none;
   background-color: #e44848;
+
   color: #ffffff;
   font-size: 16px;
   font-weight: 600;
+
   cursor: pointer;
-  transition: background-color 0.2s ease, transform 0.1s ease;
-}
-
-.searchBtn:hover:not(:disabled) {
-  background-color: #d84343;
-  transform: translateY(-1px);
-}
-
-.searchBtn:active:not(:disabled) {
-  transform: translateY(0);
+  transition: background-color 0.2s ease;
 }
 
 .searchBtn:disabled {
@@ -140,15 +159,21 @@
   cursor: default;
 }
 
-/* ===== СПИСОК КАРТОК ===== */
+.searchBtn:hover:not(:disabled),
+.searchBtn:focus-visible:not(:disabled) {
+  background-color: #d84343;
+}
+
+/* ================ LIST / CARDS RIGHT ================ */
 
 .listSection {
   flex: 1;
 }
 
 .error {
-  color: #d92d20;
-  margin-bottom: 16px;
+  margin: 0 0 16px;
+  color: #e44848;
+  font-size: 14px;
 }
 
 .list {
@@ -160,22 +185,23 @@
   gap: 24px;
 }
 
-/* картки як у макеті – більший радіус + тінь */
+/* картка кемпера */
 
 .card {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
+  width: 888px;
   padding: 24px;
   border-radius: 20px;
+
+  display: flex;
+  flex-direction: row;
+  gap: 24px;
+
+  border: 1px solid #dadde1;
   background-color: #ffffff;
-  box-shadow: 0 4px 16px rgba(16, 24, 40, 0.08);
-  border: none;
 }
 
 .cardImageWrapper {
-  width: 100%;
-  max-width: 290px;
+  width: 290px;
   height: 310px;
   border-radius: 12px;
   overflow: hidden;
@@ -192,6 +218,8 @@
   flex: 1;
 }
 
+/* заголовок + ціна + серце */
+
 .cardTitleRow {
   display: flex;
   justify-content: space-between;
@@ -202,9 +230,14 @@
 
 .cardTitle {
   margin: 0;
-  font-size: 24px; /* було 20px, у макеті більший заголовок */
+  font-size: 24px;
   font-weight: 600;
   color: #101828;
+}
+
+.cardHeaderRight {
+  display: inline-flex;
+  align-items: center;
 }
 
 .cardPrice {
@@ -213,13 +246,62 @@
   color: #101828;
 }
 
+/* кнопка-серце */
+/* кнопка-іконка сердечка */
+.cardPriceWrap {
+  display: flex;
+  align-items: center;
+  gap: 13px; /* відстань між ціною і серцем */
+}
+
+.heartBtn {
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+}
+
+.heartIcon {
+  stroke: #101828;
+  fill: none;
+  transition: stroke 0.2s ease;
+}
+
+.heartBtn:hover .heartIcon {
+  stroke: #e44848;
+}
+
+.heartActive .heartIcon {
+  stroke: #e44848;
+}
+
+/* рейтинг + локація */
+
 .cardMeta {
   margin: 0 0 12px;
-  font-size: 14px;
+  font-size: 16px;
   color: #6c727f;
   display: flex;
   align-items: center;
   gap: 6px;
+}
+
+.cardRating {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  color: #101828;
+  font-weight: 500;
+}
+
+.cardRatingIcon {
+  display: block;
+}
+
+.cardLocation {
+  color: #6c727f;
 }
 
 .cardDot {
@@ -229,82 +311,65 @@
 
 .cardDesc {
   margin: 0 0 16px;
-  font-size: 14px;
+  font-size: 16px;
   color: #475467;
 }
 
+/* кнопка Show more */
+
 .moreBtn {
-  display: inline-block;
-  padding: 16px 40px; /* як кнопка Show more в макеті */
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 166px;
+  height: 56px;
   border-radius: 200px;
+
   background-color: #e44848;
   color: #ffffff;
+
   font-size: 16px;
   font-weight: 600;
   text-decoration: none;
+
   cursor: pointer;
-  transition: background-color 0.2s ease, transform 0.1s ease;
+  transition: background-color 0.2s ease;
 }
 
-.moreBtn:hover {
+.moreBtn:hover,
+.moreBtn:focus-visible {
   background-color: #d84343;
-  transform: translateY(-1px);
 }
 
-.moreBtn:active {
-  transform: translateY(0);
-}
+/* кнопка Load more */
 
 .loadMoreBtn {
   display: block;
   margin: 32px auto 0;
-  padding: 16px 32px;
+
+  width: 166px;
+  height: 56px;
   border-radius: 200px;
+
   border: 1px solid #dadde1;
   background-color: #ffffff;
+
   font-size: 16px;
   font-weight: 600;
   color: #101828;
+
   cursor: pointer;
-  transition: background-color 0.2s ease, border-color 0.2s ease;
+  transition: border-color 0.2s ease, background-color 0.2s ease;
 }
 
-.loadMoreBtn:hover:not(:disabled) {
+.loadMoreBtn:hover:not(:disabled),
+.loadMoreBtn:focus-visible:not(:disabled) {
   border-color: #e44848;
-  background-color: #fff4f4;
+  /* фон лишаємо білим – тільки червоний бордер */
 }
 
 .loadMoreBtn:disabled {
   opacity: 0.6;
   cursor: default;
-}
-
-/* ===== АДАПТИВ ===== */
-
-@media screen and (min-width: 768px) {
-  .layout {
-    flex-direction: row;
-    align-items: flex-start;
-    gap: 40px;
-  }
-
-  .filters {
-    width: 360px; /* як у макеті */
-    flex-shrink: 0;
-  }
-
-  .card {
-    flex-direction: row;
-    align-items: flex-start;
-  }
-
-  .cardImageWrapper {
-    width: 290px;
-  }
-}
-
-@media screen and (min-width: 1440px) {
-  .layout {
-    gap: 64px;
-  }
 }
