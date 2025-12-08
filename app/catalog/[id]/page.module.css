@@ -98,16 +98,12 @@
   object-fit: cover;
 }
 
-/* опис під галереєю */
-
 .description {
   margin: 0 0 24px;
   font-size: 14px;
   line-height: 1.5;
   color: #475467;
 }
-
-/* ===== tabs ===== */
 
 .tabsRow {
   display: flex;
@@ -147,15 +143,11 @@
   margin-bottom: 24px;
 }
 
-/* ===== content row ===== */
-
 .contentRow {
   display: grid;
   grid-template-columns: minmax(0, 2fr) minmax(320px, 1fr);
   gap: 24px;
 }
-
-/* ліва панель */
 
 .leftPanel {
   display: flex;
@@ -184,9 +176,8 @@
   font-size: 14px;
   font-weight: 500;
   color: #101828;
+  gap: 8px;
 }
-
-/* vehicle details */
 
 .detailsBlock {
   padding: 24px;
@@ -230,8 +221,6 @@
   color: #101828;
   text-align: right;
 }
-
-/* reviews */
 
 .reviewsBlock {
   display: flex;
@@ -299,8 +288,6 @@
   font-size: 14px;
   color: #6c717b;
 }
-
-/* ===== booking form ===== */
 
 .booking {
   padding: 24px;

@@ -11,6 +11,12 @@ import css from "./page.module.css";
 
 type TabKey = "features" | "reviews";
 
+interface FeatureBadge {
+  key: string;
+  label: string;
+  iconId?: string;
+}
+
 export default function CamperDetailsPage() {
   const params = useParams<{ id: string }>();
   const camperId = params?.id;
@@ -91,28 +97,85 @@ export default function CamperDetailsPage() {
   const hasTV: boolean = Boolean(camper.TV ?? camper.телевизор);
   const hasRadio: boolean = Boolean(camper.radio ?? camper.радио);
 
-  const featureBadges: string[] = [];
+  const featureBadges: FeatureBadge[] = [];
 
   if (transmissionValue) {
-    featureBadges.push(
-      transmissionValue === "automatic" ? "Automatic" : transmissionValue,
-    );
+    featureBadges.push({
+      key: "transmission",
+      label:
+        transmissionValue === "automatic" ? "Automatic" : transmissionValue,
+      iconId: transmissionValue === "automatic" ? "Automatic" : undefined,
+    });
   }
-  if (hasAC) featureBadges.push("AC");
+
+  if (hasAC) {
+    featureBadges.push({
+      key: "AC",
+      label: "AC",
+      iconId: "AC",
+    });
+  }
+
   if (engineValue) {
-    featureBadges.push(
-      engineValue.charAt(0).toUpperCase() + engineValue.slice(1),
-    ); // напр. Petrol
+    const normalized = engineValue.toLowerCase();
+
+    // Підпис для бейджу
+    let engineLabel = "";
+    let engineIconId: string | undefined;
+
+    if (normalized === "petrol") {
+      engineLabel = "Petrol";
+      engineIconId = "Petrol";
+    } else if (normalized === "gas") {
+      engineLabel = "Gas";
+      engineIconId = "Gas"; // іконка Gas з твого sprite.svg
+    }
+
+    if (engineLabel) {
+      featureBadges.push({
+        key: "engine",
+        label: engineLabel,
+        iconId: engineIconId,
+      });
+    }
   }
-  if (hasKitchen) featureBadges.push("Kitchen");
-  if (hasTV) featureBadges.push("TV");
-  if (hasRadio) featureBadges.push("Radio");
+
+  if (hasKitchen) {
+    featureBadges.push({
+      key: "kitchen",
+      label: "Kitchen",
+      iconId: "Kitchen",
+    });
+  }
+
+  if (hasTV) {
+    featureBadges.push({
+      key: "TV",
+      label: "TV",
+      iconId: "TV",
+    });
+  }
+
+  if (hasRadio) {
+    featureBadges.push({
+      key: "radio",
+      label: "Radio",
+      iconId: "Radio",
+    });
+  }
+
+  if (hasBathroom) {
+    featureBadges.push({
+      key: "bathroom",
+      label: "Bathroom",
+      iconId: "Bathroom",
+    });
+  }
 
   return (
     <main className={css.main}>
       <Container>
         <section className={css.details}>
-          {/* ===== заголовок + базова інфа ===== */}
           <header className={css.header}>
             <h1 className={css.title}>{camper.name}</h1>
 
@@ -179,16 +242,24 @@ export default function CamperDetailsPage() {
           </div>
 
           <div className={css.tabDivider} />
-
-          {/* ===== контент: ліва частина + форма ===== */}
           <div className={css.contentRow}>
             <div className={css.leftPanel}>
               {activeTab === "features" && (
                 <>
                   <ul className={css.badgesList}>
-                    {featureBadges.map((badge: string) => (
-                      <li key={badge} className={css.badge}>
-                        {badge}
+                    {featureBadges.map(badge => (
+                      <li key={badge.key} className={css.badge}>
+                        {badge.iconId && (
+                          <svg
+                            className={css.badgeIcon}
+                            width={20}
+                            height={20}
+                            aria-hidden="true"
+                          >
+                            <use href={`/icons/sprite.svg#${badge.iconId}`} />
+                          </svg>
+                        )}
+                        <span>{badge.label}</span>
                       </li>
                     ))}
                   </ul>
@@ -277,7 +348,6 @@ export default function CamperDetailsPage() {
               )}
             </div>
 
-            {/* ===== форма бронювання ===== */}
             <aside className={css.booking}>
               <h2 className={css.bookingTitle}>Book your campervan now</h2>
               <p className={css.bookingSubtitle}>
