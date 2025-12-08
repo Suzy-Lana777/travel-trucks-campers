@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import toast from "react-hot-toast";
 
 import Container from "@/components/Container/Container";
 import { useCampersStore } from "@/lib/store/campersStore";
@@ -26,14 +27,28 @@ export default function CatalogPage() {
   };
 
   const toggleFavorite = (id: string) => {
-    setFavoriteIds(prev =>
-      prev.includes(id) ? prev.filter(x => x !== id) : [...prev, id],
-    );
+    setFavoriteIds(prev => {
+      const isFav = prev.includes(id);
+
+      if (isFav) {
+        toast("Removed from favourites");
+        return prev.filter(x => x !== id);
+      }
+
+      toast.success("Added to favourites");
+      return [...prev, id];
+    });
   };
 
   useEffect(() => {
     void loadCampers({ page: 1 }, { append: false });
   }, [loadCampers]);
+
+  useEffect(() => {
+    if (error) {
+      toast.error(error);
+    }
+  }, [error]);
 
   const handleSearch = () => {
     const params: { [key: string]: string | number | boolean | undefined } = {
@@ -50,6 +65,7 @@ export default function CatalogPage() {
     if (equipment.includes("TV")) params.TV = true;
 
     void loadCampers(params, { append: false });
+    toast.success("Filters applied");
   };
 
   const handleLoadMore = () => {

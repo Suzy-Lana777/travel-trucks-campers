@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import Image from "next/image";
+import toast from "react-hot-toast";
 
 import Container from "@/components/Container/Container";
 import type { Camper } from "@/types/camper";
@@ -38,7 +39,9 @@ export default function CamperDetailsPage() {
         const data = await getCamperById(String(camperId));
         setCamper(data);
       } catch {
-        setError("Failed to load camper details.");
+        const msg = "Failed to load camper details.";
+        setError(msg);
+        toast.error(msg);
       } finally {
         setIsLoading(false);
       }
@@ -50,6 +53,7 @@ export default function CamperDetailsPage() {
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setIsBooked(true);
+    toast.success("Booking request has been sent!");
   };
 
   if (isLoading) {
@@ -119,7 +123,6 @@ export default function CamperDetailsPage() {
   if (engineValue) {
     const normalized = engineValue.toLowerCase();
 
-    // Підпис для бейджу
     let engineLabel = "";
     let engineIconId: string | undefined;
 
@@ -128,7 +131,7 @@ export default function CamperDetailsPage() {
       engineIconId = "Petrol";
     } else if (normalized === "gas") {
       engineLabel = "Gas";
-      engineIconId = "Gas"; // іконка Gas з твого sprite.svg
+      engineIconId = "Gas";
     }
 
     if (engineLabel) {

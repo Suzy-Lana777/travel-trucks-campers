@@ -1,0 +1,43 @@
+.main {
+  min-height: calc(100vh - 80px); /* трішки віднімаємо висоту хедера */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 80px 16px;
+}
+
+.wrapper {
+  max-width: 480px;
+  text-align: center;
+}
+
+.title {
+  margin: 0 0 16px;
+  font-size: 32px;
+  font-weight: 700;
+  color: #101828;
+}
+
+.description {
+  margin: 0 0 24px;
+  font-size: 16px;
+  color: #667085;
+}
+
+.link {
+  display: inline-block;
+  padding: 12px 24px;
+  border-radius: 999px;
+  background-color: #e44848;
+  color: #ffffff;
+  font-weight: 600;
+  font-size: 16px;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.link:hover,
+.link:focus-visible {
+  background-color: #d84343;
+}
