@@ -1,36 +1,90 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+travel-trucks-campers — це веб-додаток для перегляду каталогу кемперів, фільтрації за параметрами та перегляду детальної інформації про кожен транспорт.
+Проєкт реалізований на Next.js, з використанням Zustand для управління станом та кастомного API для отримання даних.
 
-## Getting Started
+Основні функції:
 
-First, run the development server:
+---
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+🔍 Каталог кемперів
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Перегляд списку доступних кемперів
+Картка кожного кемпера з: фото, описом, ціною, рейтингом, локацією, кнопкою "Show more".
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+---
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+🎛 Фільтри
 
-## Learn More
+Фільтрація за місцем (Location)
+Фільтрація за обладнанням (AC, TV, Kitchen, Automatic, Bathroom)
+Фільтрація за типом авто (Van, Fully Integrated, Alcove)
+Кнопка Search для пошуку за вибраними параметрами
 
-To learn more about Next.js, take a look at the following resources:
+---
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+❤️ Улюблені
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Можливість відмітити кемпер як "улюблений" (heart icon)
+Вибране зберігається у локальному стані
 
-## Deploy on Vercel
+---
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+🔄 Пагінація / Load more
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Підвантаження наступної сторінки кемперів
+Кнопка Load more
+
+---
+
+📄 Детальна сторінка кемпера
+
+Галерея зображень
+Повний опис
+Технічні характеристики
+Устаткування та зручності
+
+---
+
+🛠️ Використані технології
+
+Next.js (App Router)
+
+TypeScript
+
+Zustand Store
+
+CSS Modules
+
+Next/Image
+
+API Fetching with custom backend
+
+---
+
+🔧 Встановлення та запуск
+
+1. Клонувати репозиторій
+   git clone https://github.com/Suzy-Lana777?tab=repositories
+
+2. Перейти в папку проєкту
+   cd travel-trucks-campers
+
+3. Встановити залежності
+   npm install
+
+4. Запустити локальний сервер
+   npm run dev
+
+Додаток буде доступний за адресою:
+
+http://localhost:3000
+
+🚀 DEPLOY
+
+https://travel-trucks-campers-gamma.vercel.app/
+
+👩‍💻 Автор проєкту
+
+Svitlana Holovenko
+Frontend Developer
+
+GitHub: https://github.com/Suzy-Lana777
