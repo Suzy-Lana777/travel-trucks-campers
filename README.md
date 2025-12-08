@@ -78,6 +78,8 @@ API Fetching with custom backend
 
 http://localhost:3000
 
+Головна сторінка має повністю адаптивну верстку для всіх типів пристроїв
+
 🚀 DEPLOY
 
 https://travel-trucks-campers-gamma.vercel.app/
