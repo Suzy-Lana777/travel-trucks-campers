@@ -18,7 +18,7 @@ export const metadata: Metadata = {
   title: "Travel Trucks",
   description: "Rent the best campers and motorhomes with Travel Trucks",
   icons: {
-    icon: "/favicon.png",
+    icon: "/public/favicon.png",
   },
 };
 
