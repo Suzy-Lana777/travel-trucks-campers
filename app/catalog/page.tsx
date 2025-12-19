@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import toast from "react-hot-toast";
@@ -11,14 +11,40 @@ import css from "./page.module.css";
 
 type VehicleForm = "" | "van" | "fullyIntegrated" | "alcove";
 
+type SearchParams = {
+  page: number;
+  location?: string;
+  form?: VehicleForm;
+  AC?: boolean;
+  kitchen?: boolean;
+  transmission?: string;
+  bathroom?: boolean;
+  TV?: boolean;
+};
+
 export default function CatalogPage() {
-  const { campers, page, isLoading, error, hasMore, loadCampers } =
-    useCampersStore();
+  const {
+    campers,
+    page,
+    isLoading,
+    error,
+    hasMore,
+    loadCampers,
+
+    // ✅ favorites from Zustand
+    favoriteIds,
+    toggleFavorite,
+    isFavorite,
+  } = useCampersStore();
 
   const [location, setLocation] = useState("");
   const [vehicleType, setVehicleType] = useState<VehicleForm>("");
   const [equipment, setEquipment] = useState<string[]>([]);
-  const [favoriteIds, setFavoriteIds] = useState<string[]>([]);
+
+  // ✅ зберігаємо останні застосовані фільтри, щоб Load more працював стабільно
+  const [appliedParams, setAppliedParams] = useState<
+    Omit<SearchParams, "page">
+  >({});
 
   const toggleEquipment = (key: string) => {
     setEquipment(prev =>
@@ -26,34 +52,29 @@ export default function CatalogPage() {
     );
   };
 
-  const toggleFavorite = (id: string) => {
-    setFavoriteIds(prev => {
-      const isFav = prev.includes(id);
+  // ✅ toast + Zustand toggle
+  const handleToggleFavorite = (id: string) => {
+    const wasFav = isFavorite(id);
+    toggleFavorite(id);
 
-      if (isFav) {
-        toast("Removed from favourites");
-        return prev.filter(x => x !== id);
-      }
-
+    if (wasFav) {
+      toast("Removed from favourites");
+    } else {
       toast.success("Added to favourites");
-      return [...prev, id];
-    });
+    }
   };
 
   useEffect(() => {
+    // перший рендер — без фільтрів
     void loadCampers({ page: 1 }, { append: false });
   }, [loadCampers]);
 
   useEffect(() => {
-    if (error) {
-      toast.error(error);
-    }
+    if (error) toast.error(error);
   }, [error]);
 
-  const handleSearch = () => {
-    const params: { [key: string]: string | number | boolean | undefined } = {
-      page: 1,
-    };
+  const computedSearchParams = useMemo<Omit<SearchParams, "page">>(() => {
+    const params: Omit<SearchParams, "page"> = {};
 
     if (location.trim()) params.location = location.trim();
     if (vehicleType) params.form = vehicleType;
@@ -64,12 +85,20 @@ export default function CatalogPage() {
     if (equipment.includes("bathroom")) params.bathroom = true;
     if (equipment.includes("TV")) params.TV = true;
 
-    void loadCampers(params, { append: false });
+    return params;
+  }, [location, vehicleType, equipment]);
+
+  const handleSearch = () => {
+    // ✅ застосовуємо фільтри, запам'ятовуємо їх, і грузимо з page=1
+    setAppliedParams(computedSearchParams);
+
+    void loadCampers({ page: 1, ...computedSearchParams }, { append: false });
     toast.success("Filters applied");
   };
 
   const handleLoadMore = () => {
-    void loadCampers({ page: page + 1 }, { append: true });
+    // ✅ Load more бере саме appliedParams (останні застосовані фільтри)
+    void loadCampers({ page: page + 1, ...appliedParams }, { append: true });
   };
 
   return (
@@ -310,7 +339,7 @@ export default function CatalogPage() {
                               : ""
                           }`}
                           aria-label="Add to favourites"
-                          onClick={() => toggleFavorite(camper.id)}
+                          onClick={() => handleToggleFavorite(camper.id)}
                         >
                           <svg
                             className={css.heartIcon}
